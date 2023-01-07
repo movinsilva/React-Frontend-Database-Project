@@ -1,5 +1,6 @@
-var ctx = document.getElementById("chart-bars").getContext("2d");
 
+var ctx = document.getElementById("chart-bars").getContext("2d");
+debugger;
 new Chart(ctx, {
     type: "bar",
     data: {
@@ -88,11 +89,9 @@ new Chart(ctx2, {
         datasets: [{
             label: "Mobile apps",
             tension: 0,
-            borderWidth: 0,
             pointRadius: 5,
             pointBackgroundColor: "rgba(255, 255, 255, .8)",
             pointBorderColor: "transparent",
-            borderColor: "rgba(255, 255, 255, .8)",
             borderColor: "rgba(255, 255, 255, .8)",
             borderWidth: 4,
             backgroundColor: "transparent",
@@ -171,7 +170,6 @@ new Chart(ctx3, {
         datasets: [{
             label: "Mobile apps",
             tension: 0,
-            borderWidth: 0,
             pointRadius: 5,
             pointBackgroundColor: "rgba(255, 255, 255, .8)",
             pointBorderColor: "transparent",

@@ -4,14 +4,15 @@ import {Helmet} from "react-helmet"
 
 class Home extends React.Component {
     componentDidMount() {
+        console.log('fdsafd')
         const script = document.createElement("script");
-        script.src = "../assets/js/plugins/chartjs.min.js";
+        script.src = "/assets/js/plugins/chartjs.min.js";
         // script.async = true;
         document.body.appendChild(script);
 
         const script2 = document.createElement("script");
-        script.src = "newchart.js";
-        // script.async = true;
+        script2.src = "/newchart.js";
+        // script2.async = true;
         document.body.appendChild(script2);
 
 
