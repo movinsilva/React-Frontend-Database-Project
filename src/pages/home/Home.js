@@ -1,6 +1,4 @@
 import React from 'react';
-import useExternalScripts from '../../hooks/useExternalScripts'
-import {Helmet} from "react-helmet"
 
 class Home extends React.Component {
     componentDidMount() {
