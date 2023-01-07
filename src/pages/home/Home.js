@@ -16,9 +16,6 @@ class Home extends React.Component {
             document.body.appendChild(script2);
 
         }
-
-
-
     }
 
     render () {
