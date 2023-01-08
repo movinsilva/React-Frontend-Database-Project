@@ -240,6 +240,11 @@ class Account extends React.Component {
                   </li>
                 </ul>
               </div>
+              <div className="text-center mb-3 text-secondary font-weight-bolder">
+                <a href="dashboard">
+                  <u>View All Transactions</u>
+                </a>
+              </div>
             </div>
           </div>
         </div>

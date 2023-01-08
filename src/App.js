@@ -31,7 +31,7 @@ class App extends React.Component {
           </div>
           <hr className="horizontal light mt-0 mb-2" />
           <div
-            className="collapse navbar-collapse  w-auto  max-height-vh-100"
+            className="collapse navbar-collapse  w-auto  h-auto"
             id="sidenav-collapse-main"
           >
             <ul className="navbar-nav">
@@ -46,6 +46,11 @@ class App extends React.Component {
                   <span className="nav-link-text ms-1">Dashboard</span>
                 </a>
               </li>
+              <li className="nav-item mt-3">
+                <h6 className="ps-4 ms-2 text-uppercase text-xs text-primary font-weight-bolder opacity-8">
+                  Account pages
+                </h6>
+              </li>
               <li className="nav-item">
                 <a className="nav-link text-white " href="/account">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -55,6 +60,35 @@ class App extends React.Component {
                 </a>
               </li>
               <li className="nav-item">
+                <a
+                  className="nav-link text-white "
+                  href="/account/createAccountForm"
+                >
+                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i className="material-icons opacity-10">table_view</i>
+                  </div>
+                  <span className="nav-link-text ms-1">Create Account</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link text-white " href="/transaction">
+                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i className="material-icons opacity-10">table_view</i>
+                  </div>
+                  <span className="nav-link-text ms-1">Transactions</span>
+                </a>
+              </li>
+              <li>
+                <div className="bg-dark"></div>
+              </li>
+              <li>
+                <hr className="horizontal light mt-0 mb-3" />
+
+                <h6 className="ps-4 ms-2 text-uppercase text-xs text-primary font-weight-bolder opacity-8">
+                  Loan pages
+                </h6>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link text-white " href="../loan">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i className="material-icons opacity-10">receipt_long</i>
@@ -62,27 +96,8 @@ class App extends React.Component {
                   <span className="nav-link-text ms-1">Loans</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/virtual-reality.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">view_in_ar</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Virtual Reality</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-white " href="../pages/rtl.html">
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">
-                      format_textdirection_r_to_l
-                    </i>
-                  </div>
-                  <span className="nav-link-text ms-1">RTL</span>
-                </a>
-              </li>
+
+              <hr className="horizontal light mt-0 mb-3" />
               <li className="nav-item">
                 <a
                   className="nav-link text-white "
@@ -95,8 +110,8 @@ class App extends React.Component {
                 </a>
               </li>
               <li className="nav-item mt-3">
-                <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">
-                  Account pages
+                <h6 className="ps-4 ms-2 text-uppercase text-xs text-primary font-weight-bolder opacity-8">
+                  Other pages
                 </h6>
               </li>
               <li className="nav-item">

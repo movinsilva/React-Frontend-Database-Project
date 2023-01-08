@@ -1,34 +1,20 @@
 import React from "react";
+import CreateAccountForm from "./../account/CreateAccountForm";
 
-class CreateAccountForm extends React.Component {
-  componentDidMount() {
-    const script = document.createElement("script");
-    script.src =
-      "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
-    // script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = function () {
-      const script2 = document.createElement("script");
-      script2.src = "/dropdown.js";
-      // script.async = true;
-      document.body.appendChild(script2);
-    };
-  }
-
+class LoanApplicationForm extends React.Component {
   render() {
     return (
       <div className="card-body">
         <div className="font-weight-bold text-lg text-uppercase text-dark">
-          Application to create account
+          Loan Application Form
         </div>
         <form role="form" className="text-start">
           <div className="input-group input-group-outline my-3">
-            <label className="form-label">Account Name</label>
+            <label className="form-label">Loan Name</label>
             <input type="text" className="form-control" />
           </div>
           <div className="input-group input-group-outline my-3">
-            <label className="form-label">Account Type</label>
+            <label className="form-label">Loan Type</label>
             <input type="text" className="form-control" />
           </div>
           <div className="input-group input-group-outline mb-3">
@@ -45,10 +31,9 @@ class CreateAccountForm extends React.Component {
           </div>
 
           <select name="car" id="car" className="w-100 ">
-            <option value={"volvo"}>Savings Account</option>
-            <option value={"volvo"}>Current Account</option>
-            <option value={"volvo"}>Fixed Deposit</option>
-            <option value={"volvo"}>Joined Account</option>
+            <option value={"volvo"}>Housing Loan</option>
+            <option value={"volvo"}>Business Loan</option>
+            <option value={"volvo"}>Vehicle Loan</option>
           </select>
 
           <div className="input-group input-group-outline my-3">
@@ -59,10 +44,7 @@ class CreateAccountForm extends React.Component {
           <div></div>
 
           <div className="text-center">
-            <a
-              className="btn bg-gradient-primary w-100 my-4 mb-2"
-              href="/account"
-            >
+            <a className="btn bg-gradient-primary w-100 my-4 mb-2" href="/loan">
               Request Permission from branch manager
             </a>
           </div>
