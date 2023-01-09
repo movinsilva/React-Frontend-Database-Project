@@ -1,7 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 class Home extends React.Component {
+
   componentDidMount() {
+
+    if (sessionStorage.getItem('role') !== 'customer') {
+      window.location.href = '/login'
+    }
+
     const script = document.createElement("script");
     script.src = "/assets/js/plugins/chartjs.min.js";
     // script.async = true;
@@ -12,6 +18,7 @@ class Home extends React.Component {
       script2.src = "/newchart.js";
       // script2.async = true;
       document.body.appendChild(script2);
+      console.log('one')
     };
   }
 

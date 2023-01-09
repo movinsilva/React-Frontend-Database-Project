@@ -1,6 +1,21 @@
 import React from "react";
 
 class Transaction extends React.Component {
+  componentDidMount() {
+    const script = document.createElement("script");
+    script.src =
+        "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
+    // script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = function () {
+      const script2 = document.createElement("script");
+      script2.src = "/dropdown.js";
+      // script.async = true;
+      document.body.appendChild(script2);
+    };
+  }
+
   render() {
     return (
       <div className="card-body">

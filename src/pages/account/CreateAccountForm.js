@@ -44,7 +44,7 @@ class CreateAccountForm extends React.Component {
             <input type="number" className="form-control" />
           </div>
 
-          <select name="car" id="car" className="w-100 ">
+          <select name="car" id="car" className="w-100 js-states form-control">
             <option value={"volvo"}>Savings Account</option>
             <option value={"volvo"}>Current Account</option>
             <option value={"volvo"}>Fixed Deposit</option>

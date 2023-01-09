@@ -2,6 +2,10 @@ import React from 'react';
 import './login.css'
 
 class Login extends React.Component {
+    componentDidMount() {
+        sessionStorage.setItem('role', 'customer')
+    }
+
     render() {
         return (
             <main className="main-content  mt-0">
