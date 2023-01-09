@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 class CreateAccountForm extends React.Component {
     componentDidMount() {
@@ -16,17 +17,55 @@ class CreateAccountForm extends React.Component {
     }
 
     render() {
+        const customer_id = "sessionSto"
+        const token = sessionStorage.getItem('token')
+        const account_number = Math.floor(10000000000 + Math.random() * 90000000000);
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
         function onSubmit(event) {
-            // const body = {
-            //     account_number: account.account_number,
-            //     customer_id: account.customer_id,
-            //     branch_code: account.branch_code,
-            //     account_type_id: account.account_type_id,
-            //     balance: account.balance,
-            //     last_active_date: account.last_active_date,
-            //     open_date: account.open_date
-            // }
+            event.preventDefault()
+            var datetime = formatDate()
+            const deposit = parseInt(document.getElementById('deposit').value)
+
+            if (deposit < 0) {
+                return
+            }
+
+            const body = {
+                account_number: account_number,
+                customer_id: customer_id,
+                branch_code: document.getElementById('branch_code').value,
+                account_type_id: document.getElementById('car').value,
+                balance: deposit,
+                last_active_date: datetime,
+                open_date: datetime
+            }
+            axios.post('http://localhost:4000/addAccount', body, {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.data.success) {
+                        window.location.href = '/dashboard'
+                    } else {
+                        // window.location.reload()
+                    }
+                }, (error) => {
+                    console.log(error);
+
+                });
         }
 
         return (<div className="card-body">
@@ -35,19 +74,20 @@ class CreateAccountForm extends React.Component {
             </div>
             <form role="form" className="text-start">
                 <div className="input-group input-group-outline my-3">
-                    <input type="text" className="form-control" value={Math.floor(10000000000 + Math.random() * 90000000000)} disabled/>
+                    <input type="text" className="form-control" id='account_number'
+                           value={'Account Number: ' + account_number} disabled/>
                 </div>
                 <div className="input-group input-group-outline my-3">
-                    <label className="form-label">Account Type</label>
-                    <input type="text" className="form-control"/>
+                    <input type="text" className="form-control"
+                           value={'Customer Id : ' + customer_id}/>
                 </div>
                 <div className="input-group input-group-outline mb-3">
-                    <label className="form-label">Address</label>
-                    <input type="text" className="form-control"/>
+                    <label className="form-label">Branch Code</label>
+                    <input type="text" className="form-control" id='branch_code'/>
                 </div>
                 <div className="input-group input-group-outline my-3">
-                    <label className="form-label">Email</label>
-                    <input type="email" className="form-control"/>
+                    <label className="form-label">Initial Deposit</label>
+                    <input type="number" className="form-control" id='deposit'/>
                 </div>
                 <div className="input-group input-group-outline my-3">
                     <label className="form-label">Phone No</label>
@@ -55,10 +95,10 @@ class CreateAccountForm extends React.Component {
                 </div>
 
                 <select name="car" id="car" className="w-100 js-states form-control">
-                    <option value={"volvo"}>Savings Account</option>
-                    <option value={"volvo"}>Current Account</option>
-                    <option value={"volvo"}>Fixed Deposit</option>
-                    <option value={"volvo"}>Joined Account</option>
+                    <option value={"s001"}>Savings Child Account</option>
+                    <option value={"s002"}>Saving Teen Account</option>
+                    <option value={"s003"}>Saving Adult Deposit</option>
+                    <option value={"s004"}>Saving Senior Account</option>
                 </select>
 
                 <div className="input-group input-group-outline my-3">
@@ -69,12 +109,12 @@ class CreateAccountForm extends React.Component {
                 <div></div>
 
                 <div className="text-center">
-                    <a
+                    <button
                         className="btn bg-gradient-primary w-100 my-4 mb-2"
-                        href="/account"
+                        onClick={onSubmit}
                     >
                         Request Permission from branch manager
-                    </a>
+                    </button>
                 </div>
             </form>
         </div>);
