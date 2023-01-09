@@ -6,17 +6,19 @@ class Login extends React.Component {
     render() {
         function onClick(event) {
             event.preventDefault()
-            // const options = {
-            //     headers: {'Autho': 'value'}
-            // };
-            // axios.post('/save', { a: 10 }, options);
-            axios.post('http://localhost:8080/api/login', {})
+            const obj = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            }
+            axios.post('http://localhost:4000/api/login',obj, { 'Content-Type': 'application/json',})
                 .then((response) => {
                     console.log(response);
+                    sessionStorage.setItem('role', 'customer')
+                    sessionStorage.setItem('token', response.data.token)
+                    window.location.href = '/dashboard'
                 }, (error) => {
                     console.log(error);
-                    sessionStorage.setItem('role', 'customer')
-                    window.location.href = '/dashboard'
+
                 });
         }
         return (
@@ -54,11 +56,11 @@ class Login extends React.Component {
                                         <form role="form" className="text-start">
                                             <div className="input-group input-group-outline my-3">
                                                 <label className="form-label">Email</label>
-                                                <input type="email" className="form-control"/>
+                                                <input type="email" className="form-control" id='email'/>
                                             </div>
                                             <div className="input-group input-group-outline mb-3">
                                                 <label className="form-label">Password</label>
-                                                <input type="password" className="form-control"/>
+                                                <input type="password" className="form-control" id='password'/>
                                             </div>
                                             <div className="form-check form-switch d-flex align-items-center mb-3">
                                                 <input className="form-check-input" type="checkbox" id="rememberMe"
