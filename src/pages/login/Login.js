@@ -1,12 +1,24 @@
 import React from 'react';
 import './login.css'
-
+import axios from "axios";
 class Login extends React.Component {
-    componentDidMount() {
-        sessionStorage.setItem('role', 'customer')
-    }
 
     render() {
+        function onClick(event) {
+            event.preventDefault()
+            // const options = {
+            //     headers: {'Autho': 'value'}
+            // };
+            // axios.post('/save', { a: 10 }, options);
+            axios.post('http://localhost:8080/api/login', {})
+                .then((response) => {
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                    sessionStorage.setItem('role', 'customer')
+                    window.location.href = '/dashboard'
+                });
+        }
         return (
             <main className="main-content  mt-0">
                 <div className="page-header align-items-start min-vh-100" id="bg_full">
@@ -55,9 +67,9 @@ class Login extends React.Component {
                                                     me</label>
                                             </div>
                                             <div className="text-center">
-                                                <a
-                                                        className="btn bg-gradient-primary w-100 my-4 mb-2" href="/dashboard">Sign in
-                                                </a>
+                                                <button
+                                                        className="btn bg-gradient-primary w-100 my-4 mb-2" onClick={onClick}>Sign in
+                                                </button>
                                             </div>
                                             <p className="mt-4 text-sm text-center">
                                                 Don't have an account?

@@ -27,9 +27,6 @@ root.render(<React.StrictMode>
             <Route path="/" element={<App><Home/></App>}/>
         </Routes>
         <RequireAuth authRoles={['customer', 'admin']}>
-            <Route exact path='/' element={<App>
-                <Home/>
-            </App>}/>
             <Route
                 path="/dashboard"
                 element={<App>
