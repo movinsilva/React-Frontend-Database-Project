@@ -7,11 +7,13 @@ class Account extends React.Component {
     super(props);
     this.state = {
       accounts: [],
+      transactions: [],
     };
   }
 
   componentDidMount() {
     const token = sessionStorage.getItem("token");
+    let defaultAccountNumber;
 
     axios
       .get(
@@ -30,44 +32,36 @@ class Account extends React.Component {
             accounts: resp.data,
           });
           console.log(this.state.accounts);
+          defaultAccountNumber = resp.data[0]["account_number"];
+
+          //getting transactions
+          axios
+            .get(
+              "http://localhost:4000/getTransactions?account_number=" +
+                resp.data[0]["account_number"],
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+              }
+            )
+            .then(
+              (response) => {
+                this.setState({
+                  transactions: response.data,
+                });
+                console.log(this.state.transactions);
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
         },
         (error) => {
           console.log(error);
         }
       );
-  }
-
-  listItem(accounts) {
-    for (let index = 0; index < accounts.length; index++) {
-      <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-        <div class="d-flex flex-column">
-          <h6 class="mb-3 text-sm">Primary Account</h6>
-          <span class="mb-2 text-xs">
-            Account No:{" "}
-            <span class="text-dark font-weight-bold ms-sm-2">
-              321 20002 5487
-            </span>
-          </span>
-          <span class="mb-2 text-xs">
-            Account Type:{" "}
-            <span class="text-dark ms-sm-2 font-weight-bold">Yes Savings</span>
-          </span>
-          <span class="text-xs">
-            VAT Number:{" "}
-            <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span>
-          </span>
-        </div>
-        <div class="ms-auto text-end">
-          <div class="d-flex flex-column">
-            <span class="text-xs">Available Balance: </span>
-            <div class="mt-3">
-              <span class="text-lg text-success">15 754 </span>
-              <span class="text-sm text-dark font-weight-bold"> LKR </span>
-            </div>
-          </div>
-        </div>
-      </li>;
-    }
   }
 
   render() {
@@ -95,13 +89,13 @@ class Account extends React.Component {
                           <span class="mb-2 text-xs">
                             Account Type:{" "}
                             <span class="text-dark ms-sm-2 font-weight-bold">
-                              Yes Savings
+                              {item["account_type_id"]}
                             </span>
                           </span>
                           <span class="text-xs">
-                            VAT Number:{" "}
+                            Branch Code:{" "}
                             <span class="text-dark ms-sm-2 font-weight-bold">
-                              FRB1235476
+                              {item["branch_code"]}
                             </span>
                           </span>
                         </div>
