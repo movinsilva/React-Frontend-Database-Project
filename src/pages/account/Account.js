@@ -1,6 +1,75 @@
 import React from "react";
+import axios from "axios";
+import { func } from "prop-types";
 
 class Account extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      accounts: [],
+    };
+  }
+
+  componentDidMount() {
+    const token = sessionStorage.getItem("token");
+
+    axios
+      .get(
+        "http://localhost:4000/getAccount?user=" +
+          sessionStorage.getItem("user"),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      )
+      .then(
+        (resp) => {
+          this.setState({
+            accounts: resp.data,
+          });
+          console.log(this.state.accounts);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  listItem(accounts) {
+    for (let index = 0; index < accounts.length; index++) {
+      <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+        <div class="d-flex flex-column">
+          <h6 class="mb-3 text-sm">Primary Account</h6>
+          <span class="mb-2 text-xs">
+            Account No:{" "}
+            <span class="text-dark font-weight-bold ms-sm-2">
+              321 20002 5487
+            </span>
+          </span>
+          <span class="mb-2 text-xs">
+            Account Type:{" "}
+            <span class="text-dark ms-sm-2 font-weight-bold">Yes Savings</span>
+          </span>
+          <span class="text-xs">
+            VAT Number:{" "}
+            <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span>
+          </span>
+        </div>
+        <div class="ms-auto text-end">
+          <div class="d-flex flex-column">
+            <span class="text-xs">Available Balance: </span>
+            <div class="mt-3">
+              <span class="text-lg text-success">15 754 </span>
+              <span class="text-sm text-dark font-weight-bold"> LKR </span>
+            </div>
+          </div>
+        </div>
+      </li>;
+    }
+  }
+
   render() {
     return (
       <div>
@@ -12,113 +81,47 @@ class Account extends React.Component {
               </div>
               <div class="card-body pt-4 p-3">
                 <ul class="list-group">
-                  <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-3 text-sm">Primary Account</h6>
-                      <span class="mb-2 text-xs">
-                        Account No:{" "}
-                        <span class="text-dark font-weight-bold ms-sm-2">
-                          321 20002 5487
-                        </span>
-                      </span>
-                      <span class="mb-2 text-xs">
-                        Account Type:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          Yes Savings
-                        </span>
-                      </span>
-                      <span class="text-xs">
-                        VAT Number:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          FRB1235476
-                        </span>
-                      </span>
-                    </div>
-                    <div class="ms-auto text-end">
-                      <div class="d-flex flex-column">
-                        <span class="text-xs">Available Balance: </span>
-                        <div class="mt-3">
-                          <span class="text-lg text-success">15 754 </span>
-                          <span class="text-sm text-dark font-weight-bold">
-                            {" "}
-                            LKR{" "}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-3 text-sm">Fixed Deposit</h6>
-                      <span class="mb-2 text-xs">
-                        Account No:{" "}
-                        <span class="text-dark font-weight-bold ms-sm-2">
-                          321 54875 6989
-                        </span>
-                      </span>
-                      <span class="mb-2 text-xs">
-                        Account Type:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          Fixed Deposit
-                        </span>
-                      </span>
-                      <span class="text-xs">
-                        VAT Number:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          FRB1235476
-                        </span>
-                      </span>
-                    </div>
-                    <div class="ms-auto text-end">
-                      <div class="d-flex flex-column">
-                        <span class="text-xs">Available Balance: </span>
-                        <div class="mt-3">
-                          <span class="text-lg text-success">815 000 </span>
-                          <span class="text-sm text-dark font-weight-bold">
-                            {" "}
-                            LKR{" "}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                    <div class="d-flex flex-column">
-                      <h6 class="mb-3 text-sm">Business Account</h6>
-                      <span class="mb-2 text-xs">
-                        Account No:{" "}
-                        <span class="text-dark font-weight-bold ms-sm-2">
-                          321 45258 7851
-                        </span>
-                      </span>
-                      <span class="mb-2 text-xs">
-                        Account Type:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          Current Account
-                        </span>
-                      </span>
-                      <span class="text-xs">
-                        VAT Number:{" "}
-                        <span class="text-dark ms-sm-2 font-weight-bold">
-                          FRB1235476
-                        </span>
-                      </span>
-                    </div>
-                    <div class="ms-auto text-end">
-                      <div class="ms-auto text-end">
+                  {this.state.accounts.map((item, index) => {
+                    return (
+                      <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                         <div class="d-flex flex-column">
-                          <span class="text-xs">Available Balance: </span>
-                          <div class="mt-3">
-                            <span class="text-lg text-success">75 250 </span>
-                            <span class="text-sm text-dark font-weight-bold">
-                              {" "}
-                              LKR{" "}
+                          <h6 class="mb-3 text-sm">Primary Account</h6>
+                          <span class="mb-2 text-xs">
+                            Account No:{" "}
+                            <span class="text-dark font-weight-bold ms-sm-2">
+                              {item["account_number"]}
                             </span>
+                          </span>
+                          <span class="mb-2 text-xs">
+                            Account Type:{" "}
+                            <span class="text-dark ms-sm-2 font-weight-bold">
+                              Yes Savings
+                            </span>
+                          </span>
+                          <span class="text-xs">
+                            VAT Number:{" "}
+                            <span class="text-dark ms-sm-2 font-weight-bold">
+                              FRB1235476
+                            </span>
+                          </span>
+                        </div>
+                        <div class="ms-auto text-end">
+                          <div class="d-flex flex-column">
+                            <span class="text-xs">Available Balance: </span>
+                            <div class="mt-3">
+                              <span class="text-lg text-success">
+                                {item["balance"]}{" "}
+                              </span>
+                              <span class="text-sm text-dark font-weight-bold">
+                                {" "}
+                                LKR{" "}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </li>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
