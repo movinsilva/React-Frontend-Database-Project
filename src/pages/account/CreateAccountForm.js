@@ -51,10 +51,10 @@ class CreateAccountForm extends React.Component {
                 last_active_date: datetime,
                 open_date: datetime
             }
-            axios.post('http://localhost:4000/addAccount', body, {
+            axios.post('http://localhost:4000/addAccount', body, {headers :{
                 'Content-Type': 'application/json',
                 'Authorization': token
-            })
+            }})
                 .then((response) => {
                     console.log(response);
                     if (response.data.success) {

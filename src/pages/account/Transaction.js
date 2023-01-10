@@ -38,7 +38,6 @@ class Transaction extends React.Component {
     render() {
 
 
-
         function checkTime(i) {
             if (i < 10) {
                 i = "0" + i;
@@ -88,12 +87,14 @@ class Transaction extends React.Component {
             }
 
             axios.post('http://localhost:4000/addTransaction', transaction, {
-                'Content-Type': 'application/json', 'Authorization': token
+                headers: {
+                    'Content-Type': 'application/json', 'authorization': token
+                }
             }).then((response) => {
                 console.log(response);
                 if (response.data.success) {
                     toast.success('transaction successful');
-                    // window.location.href = '/dashboard'
+                    window.location.href = '/account'
                 } else {
                     toast.error('Something Happened! please try again.');
                     // window.location.reload()
