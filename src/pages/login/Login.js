@@ -18,7 +18,7 @@ class Login extends React.Component {
             console.log(response);
             sessionStorage.setItem("role", response.data.role);
             sessionStorage.setItem("token", response.data.token);
-            sessionStorage.setItem("token", response.data.user);
+            sessionStorage.setItem("user", response.data.user);
             window.location.href = "/dashboard";
           },
           (error) => {
