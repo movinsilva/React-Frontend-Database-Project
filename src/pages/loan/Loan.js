@@ -1,6 +1,21 @@
 import React from "react";
+import axios from "axios";
 
 class Loan extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loans: [],
+      installments: [],
+    };
+  }
+
+  componentDidMount() {
+    const token = sessionStorage.getItem("token");
+
+    axios.get();
+  }
+
   render() {
     return (
       <div>
