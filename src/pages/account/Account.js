@@ -32,31 +32,41 @@ class Account extends React.Component {
             accounts: resp.data,
           });
           console.log(this.state.accounts);
-          defaultAccountNumber = resp.data[0]["account_number"];
+          defaultAccountNumber = resp.data[0]["account_number_from"];
 
           //getting transactions
-          axios
-            .get(
-              "http://localhost:4000/getTransactions?account_number=" +
-                resp.data[0]["account_number"],
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: token,
+
+          for (let index = 0; index < resp.data.length; index++) {
+            axios
+              .get(
+                "http://localhost:4000/getTransactions?account_number=" +
+                  resp.data[0]["account_number"],
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token,
+                  },
+                }
+              )
+              .then(
+                (response) => {
+                  let curr_array = this.state.transactions;
+                  curr_array.push(response.data);
+
+                  this.setState({
+                    transactions: curr_array,
+                  });
+
+                  //sorting transactions array
+                  // this.state.transactions.sort(function(a, b) {
+                  //   return new Date(b.date) - new Date(a.date);
+                  // })
                 },
-              }
-            )
-            .then(
-              (response) => {
-                this.setState({
-                  transactions: response.data,
-                });
-                console.log(this.state.transactions);
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
+                (error) => {
+                  console.log(error);
+                }
+              );
+          }
         },
         (error) => {
           console.log(error);
@@ -146,34 +156,26 @@ class Account extends React.Component {
                   Newest
                 </h6>
                 <ul class="list-group">
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">expand_more</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-                        <span class="text-xs">27 March 2020, at 12:30 PM</span>
+                  {this.state.transactions[0].slice(0, 1).map((item, index) => {
+                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                      <div class="d-flex align-items-center">
+                        <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                          <i class="material-icons text-lg">expand_more</i>
+                        </button>
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-1 text-dark text-sm">
+                            {item["description"]}
+                          </h6>
+                          <span class="text-xs">
+                            {item["transaction_timestamp"]}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                      - LKR 2,500
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">expand_less</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">Apple</h6>
-                        <span class="text-xs">27 March 2020, at 04:30 AM</span>
+                      <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                        LKR {item["amount"]}
                       </div>
-                    </div>
-                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                      + LKR 2,000
-                    </div>
-                  </li>
+                    </li>;
+                  })}
                 </ul>
                 <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">
                   Yesterday
