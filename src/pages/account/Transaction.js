@@ -4,7 +4,7 @@ class Transaction extends React.Component {
   componentDidMount() {
     const script = document.createElement("script");
     script.src =
-        "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
+      "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
     // script.async = true;
     document.body.appendChild(script);
 
@@ -17,6 +17,10 @@ class Transaction extends React.Component {
   }
 
   render() {
+    function onClick(event) {
+      const obj = {};
+    }
+
     return (
       <div className="card-body">
         <div className="font-weight-bold text-lg text-uppercase text-dark">
