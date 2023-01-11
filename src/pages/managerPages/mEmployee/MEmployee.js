@@ -1,5 +1,5 @@
 import React from "react";
-import DataTable from "../../loan/datatable";
+import DataTable from "../reports/datatable";
 
 class MEmployee extends React.Component {
 

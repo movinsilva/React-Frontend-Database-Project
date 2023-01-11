@@ -7,6 +7,7 @@ import Account from "./pages/account/Account";
 import CreateAccountForm from "./pages/account/CreateAccountForm";
 import LoanApplicationForm from "./pages/loan/LoanApplicationForm";
 import Transaction from "./pages/account/Transaction";
+import TransactionReport from "./pages/managerPages/reports/TransactionReport"
 import Loan from "./pages/loan/Loan";
 import Login from "./pages/login/Login";
 import MEmployee from "./pages/managerPages/mEmployee/MEmployee";
@@ -17,7 +18,7 @@ import {
 
 import RequireAuth from "./RequireAuth";
 import AccessDenied from "./pages/accessDenied/AccessDenied";
-import LoanReport from "./pages/loan/LoanReport";
+import LoanReport from "./pages/managerPages/reports/LoanReport";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -76,6 +77,13 @@ root.render(<React.StrictMode>
                     <LoanReport/>
                 </App>}
             />
+            <Route
+                path="/managerPages/reports/TransactionReport"
+                element={<App>
+                    <TransactionReport/>
+                </App>}
+            />
+
         </RequireAuth>
     </Router>
 </React.StrictMode>);
