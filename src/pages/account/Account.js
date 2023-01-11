@@ -8,12 +8,17 @@ class Account extends React.Component {
     this.state = {
       accounts: [],
       transactions: [],
+      loaded: false,
     };
   }
 
   componentDidMount() {
+    const accountlist = [];
+    //getting transactions
+    const curr_array = [];
     const token = sessionStorage.getItem("token");
     let defaultAccountNumber;
+    const transactionList = [];
 
     axios
       .get(
@@ -26,54 +31,40 @@ class Account extends React.Component {
           },
         }
       )
-      .then(
-        (resp) => {
+      .then((resp) => {
+        this.accountlist = resp.data;
+        const resquestList = [];
+        for (let index = 0; index < resp.data.length; index++) {
+          resquestList.push(
+            axios.get(
+              "http://localhost:4000/getTransaction-Latest?account_number_from=" +
+                resp.data[index]["account_number"],
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+              }
+            )
+          );
+        }
+
+        axios.all(resquestList).then((respList) => {
+          console.log(respList);
+          for (let i = 0; i < respList.length; i++) {
+            transactionList.push({
+              account: respList[i].data[0].account_number_from,
+              transactions: respList[i].data,
+            });
+          }
+          console.log(transactionList);
           this.setState({
+            transactions: transactionList,
             accounts: resp.data,
           });
-          console.log(this.state.accounts);
-          defaultAccountNumber = resp.data[0]["account_number_from"];
-
-          //getting transactions
-
-          for (let index = 0; index < resp.data.length; index++) {
-            axios
-              .get(
-                "http://localhost:4000/getTransaction-Latest?account_number_from=" +
-                  resp.data[index]["account_number"],
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: token,
-                  },
-                }
-              )
-              .then(
-                (response) => {
-                  let curr_array = this.state.transactions;
-                  curr_array.push(response.data);
-
-                  this.setState({
-                    transactions: curr_array,
-                  });
-
-                  //sorting transactions array
-                  // this.state.transactions.sort(function(a, b) {
-                  //   return new Date(b.date) - new Date(a.date);
-                  // })
-                },
-                (error) => {
-                  console.log(error);
-                }
-              );
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+        });
+      });
   }
-
   render() {
     return (
       <div>
@@ -93,28 +84,28 @@ class Account extends React.Component {
                           <span class="mb-2 text-xs">
                             Account No:{" "}
                             <span class="text-dark font-weight-bold ms-sm-2">
-                              {item["account_number"]}
+                              {item.account_number}
                             </span>
                           </span>
                           <span class="mb-2 text-xs">
                             Account Type:{" "}
                             <span class="text-dark ms-sm-2 font-weight-bold">
-                              {item["account_type_id"]}
+                              {item.account_type_id}
                             </span>
                           </span>
                           <span class="text-xs">
                             Branch Code:{" "}
                             <span class="text-dark ms-sm-2 font-weight-bold">
-                              {item["branch_code"]}
+                              {item.branch_code}
                             </span>
                           </span>
                         </div>
                         <div class="ms-auto text-end">
-                          <div class="d-flex flex-column">
+                          <div class="d-flex flex-Scolumn">
                             <span class="text-xs">Available Balance: </span>
                             <div class="mt-3">
                               <span class="text-lg text-success">
-                                {item["balance"]}{" "}
+                                {item.balance}{" "}
                               </span>
                               <span class="text-sm text-dark font-weight-bold">
                                 {" "}
@@ -157,92 +148,90 @@ class Account extends React.Component {
                 </h6>
                 <ul class="list-group">
                   {this.state.transactions.length > 0 ? (
-                    this.state.transactions[0]
-                      .slice(0, 1)
+                    this.state.transactions
+                      .find((t) => t.account === "1082310654")
+                      .transactions.slice(0, 2)
                       .map((item, index) => {
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                          <div class="d-flex align-items-center">
-                            <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                              <i class="material-icons text-lg">expand_more</i>
-                            </button>
-                            <div class="d-flex flex-column">
-                              <h6 class="mb-1 text-dark text-sm">
-                                {item["description"]}
-                              </h6>
-                              <span class="text-xs">
-                                {item["transaction_timestamp"]}
-                              </span>
+                        return (
+                          <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                              {parseInt(item["amount"]) > 0 ? (
+                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                  <i class="material-icons text-lg">
+                                    expand_more
+                                  </i>
+                                </button>
+                              ) : (
+                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                  <i class="material-icons text-lg">
+                                    expand_less
+                                  </i>
+                                </button>
+                              )}
+                              <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark text-sm">
+                                  {item["transaction_description"]}
+                                </h6>
+                                <span class="text-xs">
+                                  {item["transaction_timestamp"]}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                            LKR {item["amount"]}
-                          </div>
-                        </li>;
+                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                              LKR {item["amount"]}
+                            </div>
+                          </li>
+                        );
                       })
                   ) : (
-                    <div>***No transactions yet***</div>
+                    <div className="mb-5">***No transactions yet***</div>
                   )}
                 </ul>
                 <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">
-                  Yesterday
+                  History
                 </h6>
                 <ul class="list-group">
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">expand_less</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-                        <span class="text-xs">26 March 2020, at 13:45 PM</span>
-                      </div>
+                  {this.state.transactions.length > 3 ? (
+                    this.state.transactions
+                      .find((t) => t.account === "1082310654")
+                      .transactions.slice(2)
+                      .map((item, index) => {
+                        return (
+                          <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                              {parseInt(item["amount"]) > 0 ? (
+                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                  <i class="material-icons text-lg">
+                                    expand_more
+                                  </i>
+                                </button>
+                              ) : (
+                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
+                                  <i class="material-icons text-lg">
+                                    expand_less
+                                  </i>
+                                </button>
+                              )}
+                              <div class="d-flex flex-column">
+                                <h6 class="mb-1 text-dark text-sm">
+                                  {item["transaction_description"]}
+                                </h6>
+                                <span class="text-xs">
+                                  {item["transaction_timestamp"]}
+                                </span>
+                              </div>
+                            </div>
+                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                              LKR {item["amount"]}
+                            </div>
+                          </li>
+                        );
+                      })
+                  ) : (
+                    <div className="mt-3 mb-5">
+                      ***No more transactions to show***
                     </div>
-                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                      + LKR 750
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">expand_less</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-                        <span class="text-xs">26 March 2020, at 12:30 PM</span>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                      + LKR 1,000
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">expand_less</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-                        <span class="text-xs">26 March 2020, at 08:30 AM</span>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                      + LKR 2,500
-                    </div>
-                  </li>
-                  <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                    <div class="d-flex align-items-center">
-                      <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
-                        <i class="material-icons text-lg">priority_high</i>
-                      </button>
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-dark text-sm">Webflow</h6>
-                        <span class="text-xs">26 March 2020, at 05:00 AM</span>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-                      Pending
-                    </div>
-                  </li>
+                  )}
                 </ul>
               </div>
               <div className="text-center mb-3 text-secondary font-weight-bolder">
