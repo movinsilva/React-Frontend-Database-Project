@@ -11,6 +11,7 @@ import TransactionReport from "./pages/managerPages/reports/TransactionReport"
 import Loan from "./pages/loan/Loan";
 import Login from "./pages/login/Login";
 import MEmployee from "./pages/managerPages/mEmployee/MEmployee";
+import MDashboard from "./pages/managerPages/mDashboard/mDashboard";
 
 import {
     BrowserRouter as Router, Routes, Route, Link
@@ -19,6 +20,8 @@ import {
 import RequireAuth from "./RequireAuth";
 import AccessDenied from "./pages/accessDenied/AccessDenied";
 import LoanReport from "./pages/managerPages/reports/LoanReport";
+import ManagerApp from "./ManagerApp";
+import LoanApproval from "./pages/managerPages/loans/LoanApproval";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -34,6 +37,22 @@ root.render(<React.StrictMode>
                 </App>}
             />
         </Routes>
+        <RequireAuth authRoles={['customer']}>
+            <Route
+                path="/mDashboard"
+                element={<ManagerApp><MDashboard/></ManagerApp>}
+            />
+            <Route
+                path="/loanApproval"
+                element={<ManagerApp><LoanApproval/></ManagerApp>}
+            />
+            <Route
+                path="/managerPages/reports/TransactionReport"
+                element={<ManagerApp>
+                    <TransactionReport/>
+                </ManagerApp>}
+            />
+        </RequireAuth>
         <RequireAuth authRoles={['customer', 'admin']}>
             <Route
                 path="/account"
@@ -75,12 +94,6 @@ root.render(<React.StrictMode>
                 path="/loanReport"
                 element={<App>
                     <LoanReport/>
-                </App>}
-            />
-            <Route
-                path="/managerPages/reports/TransactionReport"
-                element={<App>
-                    <TransactionReport/>
                 </App>}
             />
 

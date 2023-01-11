@@ -2,22 +2,21 @@ import React, {useEffect} from "react";
 import Datatable from "./datatable";
 import {useState} from "react";
 import axios from "axios";
-import {DownOutlined} from '@ant-design/icons';
 import toast, {Toaster} from 'react-hot-toast';
 
-const TransactionReport = (props) => {
+const LoanApproval = (props) => {
     const [state, setStateNew] = useState({isFirst: true, map: new Map(), keys: []})
     useEffect(() => {
         if (!state.isFirst) {
             return
         }
-        axios.get('http://localhost:4000/getTransactionAll', {
+        axios.get('http://localhost:4000/getLoanToBeApproved', {
             headers: {
                 'authorization': sessionStorage.getItem('token')
             }
         }).then((resp) => {
             toast.success('Loading Finished!')
-            const data = resp.data
+            const data = resp.data.data
             const branchTransactionMap = new Map()
 
             for (let i = 0; i < data.length; i++) {
@@ -31,6 +30,8 @@ const TransactionReport = (props) => {
                     branchTransactionMap.set(item.branch_city, mapItem)
                 }
             }
+            console.log(branchTransactionMap)
+            console.log(Array.from(branchTransactionMap.keys()))
             setStateNew({isFirst: false, map: branchTransactionMap, keys: Array.from(branchTransactionMap.keys())})
 
         }).catch(err => {
@@ -66,4 +67,4 @@ const TransactionReport = (props) => {
     );
 }
 
-export default TransactionReport;
+export default LoanApproval;
