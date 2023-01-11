@@ -17,6 +17,7 @@ import {
 
 import RequireAuth from "./RequireAuth";
 import AccessDenied from "./pages/accessDenied/AccessDenied";
+import LoanReport from "./pages/loan/LoanReport";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -67,6 +68,12 @@ root.render(<React.StrictMode>
                 path="/mEmployee"
                 element={<App>
                     <MEmployee/>
+                </App>}
+            />
+            <Route
+                path="/loanReport"
+                element={<App>
+                    <LoanReport/>
                 </App>}
             />
         </RequireAuth>
