@@ -20,7 +20,6 @@ class Account extends React.Component {
     //getting transactions
     const curr_array = [];
     const token = sessionStorage.getItem("token");
-    let defaultAccountNumber;
     const transactionList = [];
 
     axios
@@ -55,7 +54,7 @@ class Account extends React.Component {
         axios.all(resquestList).then((respList) => {
           console.log(respList);
           for (let i = 0; i < respList.length; i++) {
-            if (respList[i].data.length == 0) {
+            if (respList[i].data.length === 0) {
               continue;
             }
             debugger;
@@ -123,11 +122,15 @@ class Account extends React.Component {
                               <div className="mt-3">
                                 <Button
                                   className="border-success"
-                                  onClick={(e) =>
+                                  onClick={(e) => {
                                     this.setState({
                                       selectedAccount: item.account_number,
-                                    })
-                                  }
+                                    });
+                                    console.log(
+                                      "from button",
+                                      this.state.transactions
+                                    );
+                                  }}
                                 >
                                   View Transactions
                                 </Button>
@@ -168,7 +171,10 @@ class Account extends React.Component {
                   Newest
                 </h6>
                 <ul class="list-group">
-                  {this.state.transactions.length > 0 ? (
+                  {this.state.transactions.length > 0 &&
+                  this.state.transactions.find(
+                    (t) => t.account === this.state.selectedAccount
+                  ) != null ? (
                     this.state.transactions
                       .find((t) => t.account === this.state.selectedAccount)
                       .transactions.slice(0, 2)
@@ -212,10 +218,13 @@ class Account extends React.Component {
                   History
                 </h6>
                 <ul class="list-group">
-                  {this.state.transactions.length > 3 ? (
+                  {this.state.transactions.length > 0 &&
+                  this.state.transactions.find(
+                    (t) => t.account === this.state.selectedAccount
+                  ) != null ? (
                     this.state.transactions
                       .find((t) => t.account === this.state.selectedAccount)
-                      .transactions.slice(2)
+                      .transactions.slice(2, 6)
                       .map((item, index) => {
                         return (
                           <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
