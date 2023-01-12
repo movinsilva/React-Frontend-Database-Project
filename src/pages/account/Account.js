@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { func } from "prop-types";
+import { Button } from "antd";
+import Transaction from "./Transaction";
 
 class Account extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class Account extends React.Component {
       accounts: [],
       transactions: [],
       loaded: false,
+      selectedAccount: "0",
     };
   }
 
@@ -52,6 +55,11 @@ class Account extends React.Component {
         axios.all(resquestList).then((respList) => {
           console.log(respList);
           for (let i = 0; i < respList.length; i++) {
+            if (respList[i].data.length == 0) {
+              continue;
+            }
+            debugger;
+            console.log("resp List", respList[i].data[0].account_number_from);
             transactionList.push({
               account: respList[i].data[0].account_number_from,
               transactions: respList[i].data,
@@ -61,6 +69,7 @@ class Account extends React.Component {
           this.setState({
             transactions: transactionList,
             accounts: resp.data,
+            selectedAccount: resp.data[0].account_number,
           });
         });
       });
@@ -111,6 +120,18 @@ class Account extends React.Component {
                                 {" "}
                                 LKR{" "}
                               </span>
+                              <div className="mt-3">
+                                <Button
+                                  className="border-success"
+                                  onClick={(e) =>
+                                    this.setState({
+                                      selectedAccount: item.account_number,
+                                    })
+                                  }
+                                >
+                                  View Transactions
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -149,7 +170,7 @@ class Account extends React.Component {
                 <ul class="list-group">
                   {this.state.transactions.length > 0 ? (
                     this.state.transactions
-                      .find((t) => t.account === "1082310654")
+                      .find((t) => t.account === this.state.selectedAccount)
                       .transactions.slice(0, 2)
                       .map((item, index) => {
                         return (
@@ -193,7 +214,7 @@ class Account extends React.Component {
                 <ul class="list-group">
                   {this.state.transactions.length > 3 ? (
                     this.state.transactions
-                      .find((t) => t.account === "1082310654")
+                      .find((t) => t.account === this.state.selectedAccount)
                       .transactions.slice(2)
                       .map((item, index) => {
                         return (
