@@ -109,19 +109,15 @@ class ManagerApp extends React.Component {
                   <span className="nav-link-text ms-1">Loans Approval</span>
                 </a>
               </li>
-
-              <hr className="horizontal light mt-0 mb-3" />
               <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/notifications.html"
-                >
+                <a className="nav-link text-white " href="/managerPages/reports/branchWiseLateLoans">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">notifications</i>
+                    <i className="material-icons opacity-10">receipt_long</i>
                   </div>
-                  <span className="nav-link-text ms-1">Notifications</span>
+                  <span className="nav-link-text ms-1">Due Loans Per Branch</span>
                 </a>
               </li>
+              <hr className="horizontal light mt-0 mb-3" />
               <li className="nav-item mt-3">
                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-primary font-weight-bolder opacity-8">
                   Other pages

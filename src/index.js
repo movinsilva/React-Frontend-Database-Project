@@ -21,6 +21,7 @@ import LoanReport from "./pages/managerPages/reports/LoanReport";
 import ManagerApp from "./ManagerApp";
 import LoanApproval from "./pages/managerPages/loans/LoanApproval";
 import MFDForm from "./pages/managerPages/mAccount/mFDForm";
+import BranchWiseLateLoans from "./pages/managerPages/lateLoans/BranchWiseLateLoans";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -79,6 +80,14 @@ root.render(
             </ManagerApp>
           }
         />
+          <Route
+              path="/managerPages/reports/branchWiseLateLoans"
+              element={
+                  <ManagerApp>
+                      <BranchWiseLateLoans />
+                  </ManagerApp>
+              }
+          />
       </RequireAuth>
       <RequireAuth authRoles={["customer", "admin"]}>
         <Route
