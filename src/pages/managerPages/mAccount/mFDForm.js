@@ -65,6 +65,7 @@ const MFDForm = (props) => {
         console.log(response);
         if (response.data.success) {
           toast.success("Fixed deposit successfully created");
+
           window.location.href = "/mDashboard";
         } else {
           toast.error("Error");
@@ -78,7 +79,7 @@ const MFDForm = (props) => {
   return (
     <div className="card-body">
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="font-weight-bold text-lg text-uppercase text-dark">
+      <div className="font-weight-bold text-lg text-uppercase text-dark mb-3">
         Application to create Fixed Deposit
       </div>
       <form role="form" className="text-start">
@@ -109,7 +110,7 @@ const MFDForm = (props) => {
           </button>
         </div>
 
-        <div className="mt-3 text-xs text-dark font-weight-bold">
+        <div className="mt-5 text-xs text-dark font-weight-bold">
           Choose the savings account to be linked
         </div>
 
@@ -154,8 +155,8 @@ const MFDForm = (props) => {
           Choose the account type
         </div>
         <select name="type" id="car" className="w-100 js-states form-control">
-          <option value={true}>Individual</option>
-          <option value={false}>Business</option>
+          <option value="1">Individual</option>
+          <option value="0">Business</option>
         </select>
 
         <div className="input-group input-group-outline my-3">
