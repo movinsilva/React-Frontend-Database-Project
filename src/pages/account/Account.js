@@ -39,7 +39,7 @@ class Account extends React.Component {
         for (let index = 0; index < resp.data.length; index++) {
           resquestList.push(
             axios.get(
-              "http://localhost:4000/getTransaction-Latest?account_number_from=" +
+              "http://localhost:4000/getTransactionLatest?account_number=" +
                 resp.data[index]["account_number"],
               {
                 headers: {
@@ -57,11 +57,10 @@ class Account extends React.Component {
             if (respList[i].data.length === 0) {
               continue;
             }
-            debugger;
-            console.log("resp List", respList[i].data[0].account_number_from);
+            console.log("resp List", respList[i].data.req);
             transactionList.push({
-              account: respList[i].data[0].account_number_from,
-              transactions: respList[i].data,
+              account: respList[i].data.req,
+              transactions: respList[i].data.rows,
             });
           }
           console.log(transactionList);
@@ -88,7 +87,7 @@ class Account extends React.Component {
                     return (
                       <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                         <div class="d-flex flex-column">
-                          <h6 class="mb-3 text-sm">Primary Account</h6>
+                          <h6 class="mb-3 text-sm">Account {index + 1}</h6>
                           <span class="mb-2 text-xs">
                             Account No:{" "}
                             <span class="text-dark font-weight-bold ms-sm-2">
@@ -162,7 +161,7 @@ class Account extends React.Component {
                   </div>
                   <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                     <i class="material-icons me-2 text-lg">date_range</i>
-                    <small>23 - 30 March 2020</small>
+                    <small>{}</small>
                   </div>
                 </div>
               </div>
@@ -182,7 +181,8 @@ class Account extends React.Component {
                         return (
                           <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-center">
-                              {parseInt(item["amount"]) > 0 ? (
+                              {this.state.selectedAccount ===
+                              item.account_number_from ? (
                                 <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
                                   <i class="material-icons text-lg">
                                     expand_more
@@ -200,13 +200,20 @@ class Account extends React.Component {
                                   {item["transaction_description"]}
                                 </h6>
                                 <span class="text-xs">
-                                  {item["transaction_timestamp"]}
+                                  {item["transaction_timestamp"].slice(0, 10)}
                                 </span>
                               </div>
                             </div>
-                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                              LKR {item["amount"]}
-                            </div>
+                            {this.state.selectedAccount ===
+                            item.account_number_from ? (
+                              <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                - LKR {item["amount"]}
+                              </div>
+                            ) : (
+                              <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                + LKR {item["amount"]}
+                              </div>
+                            )}
                           </li>
                         );
                       })
@@ -229,7 +236,8 @@ class Account extends React.Component {
                         return (
                           <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-center">
-                              {parseInt(item["amount"]) > 0 ? (
+                              {this.state.selectedAccount ===
+                              item.account_number_from ? (
                                 <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center">
                                   <i class="material-icons text-lg">
                                     expand_more
@@ -247,13 +255,20 @@ class Account extends React.Component {
                                   {item["transaction_description"]}
                                 </h6>
                                 <span class="text-xs">
-                                  {item["transaction_timestamp"]}
+                                  {item["transaction_timestamp"].slice(0, 10)}
                                 </span>
                               </div>
                             </div>
-                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                              LKR {item["amount"]}
-                            </div>
+                            {this.state.selectedAccount ===
+                            item.account_number_from ? (
+                              <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                - LKR {item["amount"]}
+                              </div>
+                            ) : (
+                              <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                                + LKR {item["amount"]}
+                              </div>
+                            )}
                           </li>
                         );
                       })

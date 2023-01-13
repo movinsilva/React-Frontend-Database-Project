@@ -36,7 +36,7 @@ class MFDForm extends React.Component {
         1000000000 + Math.random() * 9000000000
       );
       const user = document.getElementById("user_id").value;
-      const savings_account = document.getElementById("savingsAccounts").value;
+      const savings_account = document.getElementById("car").value;
       const note = document.getElementById("note").value;
       const fd = {
         account_number: account_number,
@@ -115,7 +115,7 @@ class MFDForm extends React.Component {
 
           <select
             name="savingsAccounts"
-            id="savingsAccounts"
+            id="car"
             className="w-100 js-states form-control"
           >
             {this.state.savingsAccounts.length > 0 ? (
