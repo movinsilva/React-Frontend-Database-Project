@@ -157,7 +157,7 @@ class Account extends React.Component {
               <div class="card-header pb-0 px-3">
                 <div class="row">
                   <div class="col-md-6">
-                    <h6 class="mb-0">Your Transaction's</h6>
+                    <h6 class="mb-0">Your Transactions</h6>
                   </div>
                   <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                     <i class="material-icons me-2 text-lg">date_range</i>

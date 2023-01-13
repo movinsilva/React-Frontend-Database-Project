@@ -132,7 +132,7 @@ const MFDForm = (props) => {
           <select
             name="savingsAccounts"
             id="car"
-            className="w-100 js-states form-control"
+            className="w-100 js-states form-control border px-3"
           >
             {state.savingsAccounts.map((item, index) => {
               return (
@@ -146,7 +146,7 @@ const MFDForm = (props) => {
           <select
             name="savingsAccounts"
             id="car"
-            className="w-100 js-states form-control"
+            className="w-100 js-states form-control  border px-3"
           >
             <option>No savings accounts to the user</option>
           </select>
@@ -158,7 +158,7 @@ const MFDForm = (props) => {
         <select
           name="duration"
           id="car"
-          className="w-100 js-states form-control"
+          className="w-100 js-states form-control border px-3"
         >
           <option value="f001">6 months</option>
           <option value="f002">1 year</option>
@@ -168,7 +168,11 @@ const MFDForm = (props) => {
         <div className="mt-3 text-xs text-dark font-weight-bold">
           Choose the account type
         </div>
-        <select name="type" id="car" className="w-100 js-states form-control">
+        <select
+          name="type"
+          id="car"
+          className="w-100 js-states form-control border px-3"
+        >
           <option value="1">Individual</option>
           <option value="0">Business</option>
         </select>
