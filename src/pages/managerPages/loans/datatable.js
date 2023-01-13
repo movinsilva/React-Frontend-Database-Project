@@ -6,7 +6,6 @@ const DataTable = (props) => {
     const data = props.data
     const newData = []
     data.map((item, index) => {
-        console.log(item.is_online)
         newData.push({
             key: index,
             loanNumber: item.loan_number,
@@ -55,14 +54,17 @@ const DataTable = (props) => {
                 <Space size="large">
                     <Tag color={'volcano'} key={'2'}><a onClick={
                         () => {
+                            debugger
                             axios.post('http://localhost:4000/approveLoan', {
-                                loan_number: record.loanNumber
+                                loan_number: record.loanNumber,
+                                amount: record.amount
                             }, {
                                 headers: {
                                     'Content-Type': 'application/json', 'authorization': sessionStorage.getItem('token')
                                 }
                             }).then((resp) => {
-                                if (resp.success) {
+                                console.log(resp)
+                                if (resp.data.success) {
                                     window.location.reload()
                                 } else {
                                     toast.error('approval failed')

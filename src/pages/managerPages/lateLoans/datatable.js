@@ -25,6 +25,7 @@ const DataTable = (props) => {
     }
 
     data.map((item, index) => {
+        debugger
         const lastPayDate = getLastPaymentDate(item.payment_count, item.start_date);
         if (lastPayDate < new Date()) {
             newData.push({

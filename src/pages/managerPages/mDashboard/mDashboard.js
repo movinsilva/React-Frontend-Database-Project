@@ -4,7 +4,7 @@ class MDashboard extends React.Component {
 
   componentDidMount() {
 
-    if (sessionStorage.getItem('role') !== 'customer') {
+    if (sessionStorage.getItem('role') !== 'manager') {
       window.location.href = '/login'
     }
 

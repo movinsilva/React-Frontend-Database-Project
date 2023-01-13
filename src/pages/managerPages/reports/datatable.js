@@ -1,4 +1,4 @@
-import {Table, Tag} from "antd";
+import {Space, Table, Tag} from "antd";
 
 const DataTable = (props) => {
     const data = props.data
@@ -42,7 +42,11 @@ const DataTable = (props) => {
         {
             title: 'Amount',
             dataIndex: 'Amount',
-            key: 'Amount'
+            key: 'Amount',
+            render: (_, record) => (
+                <Space size="large">
+                    <Tag color={'gold'} key={'2'}>{'LKR ' + record.Amount}</Tag></Space>
+            ),
         }
 
     ]
