@@ -17,7 +17,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
 import AccessDenied from "./pages/accessDenied/AccessDenied";
-import LoanReport from "./pages/managerPages/reports/LoanReport";
 import ManagerApp from "./ManagerApp";
 import LoanApproval from "./pages/managerPages/loans/LoanApproval";
 import MFDForm from "./pages/managerPages/mAccount/mFDForm";
@@ -80,14 +79,14 @@ root.render(
             </ManagerApp>
           }
         />
-          <Route
-              path="/managerPages/reports/branchWiseLateLoans"
-              element={
-                  <ManagerApp>
-                      <BranchWiseLateLoans />
-                  </ManagerApp>
-              }
-          />
+        <Route
+          path="/managerPages/reports/branchWiseLateLoans"
+          element={
+            <ManagerApp>
+              <BranchWiseLateLoans />
+            </ManagerApp>
+          }
+        />
       </RequireAuth>
       <RequireAuth authRoles={["customer", "admin"]}>
         <Route
@@ -135,14 +134,6 @@ root.render(
           element={
             <App>
               <MEmployee />
-            </App>
-          }
-        />
-        <Route
-          path="/loanReport"
-          element={
-            <App>
-              <LoanReport />
             </App>
           }
         />
