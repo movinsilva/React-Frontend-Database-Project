@@ -11,8 +11,9 @@ const MFDForm = (props) => {
     buttonCheck.onclick = (event) => {
       event.preventDefault();
       let userID = document.getElementById("user_id").value;
+
       axios
-        .get("http://localhost:4000/getEligibleFDAccounts?user=" + userID, {
+        .get("http://localhost:4000/getEligibleSavingAccounts?user=" + userID, {
           headers: {
             "Content-Type": "application/json",
             Authorization: sessionStorage.getItem("token"),
@@ -32,6 +33,18 @@ const MFDForm = (props) => {
   const token = sessionStorage.getItem("token");
   const branch_code = sessionStorage.getItem("branch_code");
 
+  function formatDate() {
+    var d = new Date(),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   function onSubmit(event) {
     event.preventDefault();
     const account_number = Math.floor(1000000000 + Math.random() * 9000000000);
@@ -50,6 +63,7 @@ const MFDForm = (props) => {
       account_number_from: account_number,
       account_number_to: savings_account,
       is_personal: type,
+      open_date: formatDate(Date.now),
     };
 
     console.log("clicked", fd);
