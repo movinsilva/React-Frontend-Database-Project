@@ -24,9 +24,7 @@ class ManagerApp extends React.Component {
                 className="navbar-brand-img h-100"
                 alt="main_logo"
               />
-              <span className="ms-1 font-weight-bold text-white">
-                XYZ Bank
-              </span>
+              <span className="ms-1 font-weight-bold text-white">XYZ Bank</span>
             </a>
           </div>
           <hr className="horizontal light mt-0 mb-2" />
@@ -102,6 +100,14 @@ class ManagerApp extends React.Component {
                 </h6>
               </li>
               <li className="nav-item">
+                <a className="nav-link text-white " href="/loanApplication">
+                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i className="material-icons opacity-10">receipt_long</i>
+                  </div>
+                  <span className="nav-link-text ms-1">Loans Application</span>
+                </a>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link text-white " href="/loanApproval">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i className="material-icons opacity-10">receipt_long</i>
@@ -143,10 +149,10 @@ class ManagerApp extends React.Component {
               <button
                 className="btn bg-gradient-primary mt-4 w-100"
                 onClick={() => {
-                  sessionStorage.setItem("role", '');
-                  sessionStorage.setItem("token", '');
-                  sessionStorage.setItem("user", '');
-                  window.location.href = '/login'
+                  sessionStorage.setItem("role", "");
+                  sessionStorage.setItem("token", "");
+                  sessionStorage.setItem("user", "");
+                  window.location.href = "/login";
                 }}
                 type="button"
               >
