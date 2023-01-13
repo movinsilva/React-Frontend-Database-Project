@@ -96,7 +96,14 @@ class App extends React.Component {
                   <span className="nav-link-text ms-1">Loans</span>
                 </a>
               </li>
-
+              <li className="nav-item">
+                <a className="nav-link text-white " href="../LoanForecast">
+                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i className="material-icons opacity-10">receipt_long</i>
+                  </div>
+                  <span className="nav-link-text ms-1">Loan Forecast</span>
+                </a>
+              </li>
               <hr className="horizontal light mt-0 mb-3" />
               <li className="nav-item">
                 <a

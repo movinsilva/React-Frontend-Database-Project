@@ -247,8 +247,8 @@ class Loan extends React.Component {
                   </ul>
                 </div>
                 <div className="text-center mb-3 text-secondary font-weight-bolder">
-                  <a href="/managerPages/reports/LoanReport">
-                    <u>View All Payments</u>
+                  <a href="/loanForecast">
+                    <u>Loan Payment Forecast</u>
                   </a>
                 </div>
               </div>

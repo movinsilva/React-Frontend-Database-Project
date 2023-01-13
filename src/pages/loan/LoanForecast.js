@@ -4,13 +4,13 @@ import {useState} from "react";
 import axios from "axios";
 import toast, {Toaster} from 'react-hot-toast';
 
-const BranchWiseLateLoans = (props) => {
+const LoanForecast = (props) => {
     const [state, setStateNew] = useState({isFirst: true, map: new Map(), keys: []})
     useEffect(() => {
         if (!state.isFirst) {
             return
         }
-        axios.get('http://localhost:4000/getLoanPaymentDueManager', {
+        axios.get('http://localhost:4000/getLoanPaymentDueCustomer?user=' + sessionStorage.getItem('user'), {
             headers: {
                 'authorization': sessionStorage.getItem('token')
             }
@@ -21,13 +21,13 @@ const BranchWiseLateLoans = (props) => {
 
             for (let i = 0; i < data.length; i++) {
                 const item = data[i]
-                if (!branchTransactionMap.has(item.branch_city)) {
-                    branchTransactionMap.set(item.branch_city, [item])
+                if (!branchTransactionMap.has(item.loan_number)) {
+                    branchTransactionMap.set(item.loan_number, [item])
                 } else {
-                    let mapItem = branchTransactionMap.get(item.branch_city)
+                    let mapItem = branchTransactionMap.get(item.loan_number)
                     mapItem.push(item)
-                    branchTransactionMap.delete(item.branch_city)
-                    branchTransactionMap.set(item.branch_city, mapItem)
+                    branchTransactionMap.delete(item.loan_number)
+                    branchTransactionMap.set(item.loan_number, mapItem)
                 }
             }
             console.log(branchTransactionMap)
@@ -55,8 +55,8 @@ const BranchWiseLateLoans = (props) => {
                         state.keys.map((item, index) => {
                             return (
                                 <div>
-                                    <h4 className='p-1 pb-3'>{item}</h4>
-                                    <Datatable data={state.map.get(item)} x={1200} y={1000}/>
+                                    <h4 className='p-1 pb-3'>{'Loan ID : ' + item}</h4>
+                                    <Datatable data={state.map.get(item)} x={800} y={1000}/>
                                 </div>
                             )
                         })
@@ -67,4 +67,4 @@ const BranchWiseLateLoans = (props) => {
     );
 }
 
-export default BranchWiseLateLoans;
+export default LoanForecast;
