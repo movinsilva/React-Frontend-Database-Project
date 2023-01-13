@@ -1,159 +1,164 @@
 import { Button } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-class MFDForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      savingsAccounts: [],
-    };
-  }
-
-  componentDidMount() {
-    const script = document.createElement("script");
-    script.src =
-      "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
-    // script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = function () {
-      const script2 = document.createElement("script");
-      script2.src = "/dropdown.js";
-      // script.async = true;
-      document.body.appendChild(script2);
-    };
-  }
-
-  render() {
-    const token = sessionStorage.getItem("token");
-    const branch_code = sessionStorage.getItem("branch_code");
-
-    function onSubmit(event) {
-      event.preventDefault();
-      const account_number = Math.floor(
-        1000000000 + Math.random() * 9000000000
-      );
-      const user = document.getElementById("user_id").value;
-      const savings_account = document.getElementById("car").value;
-      const note = document.getElementById("note").value;
-      const fd = {
-        account_number: account_number,
-        customer_id: user,
-      };
-
-      axios
-        .post("http://localhost:4000/addFD", fd, {
-          headers: {
-            "content-Type": "application/json",
-            authorization: token,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.data.success) {
-            toast.success("Fixed deposit successfully created");
-            window.location.href = "/mDashboard";
-          } else {
-            toast.error("Error");
-          }
-        });
-    }
-
-    function checkAccounts(event) {
+const MFDForm = (props) => {
+  const [state, setStateNew] = useState({ savingsAccounts: [] });
+  useEffect(() => {
+    const buttonCheck = document.getElementById("checkBtn");
+    buttonCheck.onclick = (event) => {
       event.preventDefault();
       let userID = document.getElementById("user_id").value;
       axios
         .get("http://localhost:4000/getEligibleFDAccounts?user=" + userID, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: sessionStorage.getItem("token"),
           },
         })
         .then((resp) => {
-          console.log(resp);
-          this.setState({
+          console.log(resp.data);
+          setStateNew({
             savingsAccounts: resp.data,
           });
+          console.log("state", state.savingsAccounts);
         })
         .catch((error) => {});
-    }
+    };
+  });
 
-    return (
-      <div className="card-body">
-        <div className="font-weight-bold text-lg text-uppercase text-dark">
-          Application to create Fixed Deposit
+  const token = sessionStorage.getItem("token");
+  const branch_code = sessionStorage.getItem("branch_code");
+
+  function onSubmit(event) {
+    event.preventDefault();
+    const account_number = Math.floor(1000000000 + Math.random() * 9000000000);
+    const user = document.getElementById("user_id").value;
+    const savings_account = document.getElementById("car").value;
+    const amount = document.getElementById("amount").value;
+    const note = document.getElementById("note").value;
+    const duration = document.getElementsByName("duration")[0].value;
+    const fd = {
+      account_number: account_number,
+      customer_id: user,
+      branch_code: branch_code,
+      account_type_id: duration,
+      balance: amount,
+      account_number_from: account_number,
+      account_number_to: savings_account,
+    };
+
+    console.log("clicked", fd);
+
+    axios
+      .post("http://localhost:4000/addAccountFD", fd, {
+        headers: {
+          "content-Type": "application/json",
+          authorization: token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.success) {
+          toast.success("Fixed deposit successfully created");
+          window.location.href = "/mDashboard";
+        } else {
+          toast.error("Error");
+        }
+      });
+  }
+
+  return (
+    <div className="card-body">
+      <div className="font-weight-bold text-lg text-uppercase text-dark">
+        Application to create Fixed Deposit
+      </div>
+      <form role="form" className="text-start">
+        <div className="input-group input-group-outline mb-3">
+          <input
+            type="text"
+            className="form-control"
+            id="branch_code"
+            value={"Branch Code: " + branch_code}
+            disabled
+          />
         </div>
-        <form role="form" className="text-start">
-          <div className="input-group input-group-outline mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="branch_code"
-              value={"Branch Code: " + branch_code}
-              disabled
-            />
-          </div>
 
-          <div className="row my-3 mr-2">
-            <div className="input-group input-group-outline w-75">
-              <label className="form-label">User ID</label>
-              <input id="user_id" type="text" className="form-control" />
-            </div>
-            <Button
-              className="btn bg-gradient-primary w-25 my-auto py-1 px-5 mx-5 h-auto w-auto"
-              onClick={checkAccounts}
-            >
-              Check
-            </Button>
+        <div className="row my-3 mr-2">
+          <div className="input-group input-group-outline w-75">
+            <label className="form-label">User ID</label>
+            <input id="user_id" type="text" className="form-control" />
           </div>
+          <button
+            id="checkBtn"
+            className="btn bg-gradient-primary w-25 my-auto py-1 px-5 mx-5 h-auto w-auto"
+          >
+            Check
+          </button>
+        </div>
 
+        <div className="text-xs font-weight-bold">
+          Choose the savings account to be linked
+        </div>
+
+        {state.savingsAccounts.length > 0 ? (
           <select
             name="savingsAccounts"
             id="car"
             className="w-100 js-states form-control"
           >
-            {this.state.savingsAccounts.length > 0 ? (
-              this.state.savingsAccounts.map((item, index) => {
-                return (
-                  <option value={item.account_number}>
-                    {item.account_number}
-                  </option>
-                );
-              })
-            ) : (
-              <option>No savings accounts to the user</option>
-            )}
+            {state.savingsAccounts.map((item, index) => {
+              return (
+                <option value={item.account_number}>
+                  {item.account_number}
+                </option>
+              );
+            })}
           </select>
-          <div className="input-group input-group-outline my-3">
-            <label className="form-label">Amount</label>
-            <input type="number" className="form-control" id="deposit" />
-          </div>
-          <div className="input-group input-group-outline my-3">
-            <label className="form-label">Phone No</label>
-            <input type="tel" className="form-control" />
-          </div>
+        ) : (
+          <select
+            name="savingsAccounts"
+            id="car"
+            className="w-100 js-states form-control"
+          >
+            <option>No savings accounts to the user</option>
+          </select>
+        )}
+        <div className="input-group input-group-outline my-3">
+          <label className="form-label">Amount</label>
+          <input type="number" className="form-control" id="amount" />
+        </div>
+        <div className="text-xs font-weight-bold">Duration</div>
+        <select
+          name="duration"
+          id="car"
+          className="w-100 js-states form-control"
+        >
+          <option value="f001">6 months</option>
+          <option value="f002">1 year</option>
+          <option value="f003">3 years</option>
+        </select>
 
-          <div className="input-group input-group-outline my-3">
-            <label className="form-label">Note</label>
-            <textarea id="note" className="form-control"></textarea>
-          </div>
+        <div className="input-group input-group-outline my-3">
+          <label className="form-label">Note</label>
+          <textarea id="note" className="form-control"></textarea>
+        </div>
 
-          <div></div>
+        <div></div>
 
-          <div className="text-center">
-            <button
-              className="btn bg-gradient-primary w-100 my-4 mb-2"
-              onClick={onSubmit}
-            >
-              Create Fixed Deposit
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+        <div className="text-center">
+          <button
+            className="btn bg-gradient-primary w-100 my-4 mb-2"
+            onClick={onSubmit}
+          >
+            Create Fixed Deposit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default MFDForm;
