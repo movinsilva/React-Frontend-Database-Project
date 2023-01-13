@@ -71,11 +71,24 @@ class ManagerApp extends React.Component {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white " href="/managerPages/reports/TransactionReport">
+                <a className="nav-link text-white " href="/mFDForm">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i className="material-icons opacity-10">table_view</i>
                   </div>
-                  <span className="nav-link-text ms-1">Transactions Report</span>
+                  <span className="nav-link-text ms-1">Create FD</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link text-white "
+                  href="/managerPages/reports/TransactionReport"
+                >
+                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i className="material-icons opacity-10">table_view</i>
+                  </div>
+                  <span className="nav-link-text ms-1">
+                    Transactions Report
+                  </span>
                 </a>
               </li>
               <li>
