@@ -28,7 +28,7 @@ class MFDForm extends React.Component {
 
   render() {
     const token = sessionStorage.getItem("token");
-    const branch_code = "sessionStorage.getItem";
+    const branch_code = sessionStorage.getItem("branch_code");
 
     function onSubmit(event) {
       event.preventDefault();
@@ -65,7 +65,7 @@ class MFDForm extends React.Component {
       event.preventDefault();
       let userID = document.getElementById("user_id").value;
       axios
-        .get("http://localhost:4000/getEligibleSavingAccount?user=" + userID, {
+        .get("http://localhost:4000/getEligibleFDAccounts?user=" + userID, {
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
@@ -98,12 +98,8 @@ class MFDForm extends React.Component {
 
           <div className="row my-3 mr-2">
             <div className="input-group input-group-outline w-75">
-              <input
-                id="user_id"
-                type="text"
-                className="form-control"
-                value={"Customer Id : "}
-              />
+              <label className="form-label">User ID</label>
+              <input id="user_id" type="text" className="form-control" />
             </div>
             <Button
               className="btn bg-gradient-primary w-25 my-auto py-1 px-5 mx-5 h-auto w-auto"
@@ -136,7 +132,7 @@ class MFDForm extends React.Component {
           </div>
           <div className="input-group input-group-outline my-3">
             <label className="form-label">Phone No</label>
-            <input type="number" className="form-control" />
+            <input type="tel" className="form-control" />
           </div>
 
           <div className="input-group input-group-outline my-3">

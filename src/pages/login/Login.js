@@ -23,12 +23,19 @@ class Login extends React.Component {
               window.location.href = "/dashboard";
             } else if (response.data.role == "manager") {
               axios
-                .get("http://localhost:4000/getBranch", {
-                  "Content-Type": "application/json",
-                  Authorization: response.data.token,
-                })
+                .get(
+                  "http://localhost:4000/getEmployeeBranch?user=" +
+                    response.data.user,
+                  {
+                    "Content-Type": "application/json",
+                    Authorization: response.data.token,
+                  }
+                )
                 .then((resp) => {
-                  sessionStorage.setItem("branch_code", resp.data);
+                  sessionStorage.setItem(
+                    "branch_code",
+                    resp.data[0].branch_code
+                  );
                 })
                 .catch((error) => {});
               window.location.href = "/mDashboard";
