@@ -106,7 +106,7 @@ class MFDForm extends React.Component {
               />
             </div>
             <Button
-              className="btn bg-gradient-primary w-25 my-auto py-1"
+              className="btn bg-gradient-primary w-25 my-auto py-1 px-5 mx-5 h-auto w-auto"
               onClick={checkAccounts}
             >
               Check
