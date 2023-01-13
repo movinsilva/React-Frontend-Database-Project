@@ -25,7 +25,7 @@ class App extends React.Component {
                 alt="main_logo"
               />
               <span className="ms-1 font-weight-bold text-white">
-                A.H.K Perera
+                XYZ Bank
               </span>
             </a>
           </div>
@@ -105,32 +105,11 @@ class App extends React.Component {
                 </a>
               </li>
               <hr className="horizontal light mt-0 mb-3" />
-              <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/notifications.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">notifications</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Notifications</span>
-                </a>
-              </li>
+
               <li className="nav-item mt-3">
                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-primary font-weight-bolder opacity-8">
                   Other pages
                 </h6>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/profile.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">person</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Profile</span>
-                </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link text-white " href="/login">
@@ -140,28 +119,22 @@ class App extends React.Component {
                   <span className="nav-link-text ms-1">Sign In</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/sign-up.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">assignment</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Sign Up</span>
-                </a>
-              </li>
             </ul>
           </div>
           <div className="sidenav-footer position-absolute w-100 bottom-0 ">
             <div className="mx-3">
-              <a
-                className="btn bg-gradient-primary mt-4 w-100"
-                href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree"
-                type="button"
+              <button
+                  className="btn bg-gradient-primary mt-4 w-100"
+                  onClick={() => {
+                    sessionStorage.setItem("role", '');
+                    sessionStorage.setItem("token", '');
+                    sessionStorage.setItem("user", '');
+                    window.location.href = '/login'
+                  }}
+                  type="button"
               >
                 Logout
-              </a>
+              </button>
             </div>
           </div>
         </aside>

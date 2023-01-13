@@ -25,7 +25,7 @@ class ManagerApp extends React.Component {
                 alt="main_logo"
               />
               <span className="ms-1 font-weight-bold text-white">
-                A.H.K Perera
+                XYZ Bank
               </span>
             </a>
           </div>
@@ -129,17 +129,6 @@ class ManagerApp extends React.Component {
                 </h6>
               </li>
               <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/profile.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">person</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Profile</span>
-                </a>
-              </li>
-              <li className="nav-item">
                 <a className="nav-link text-white " href="/login">
                   <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i className="material-icons opacity-10">login</i>
@@ -147,28 +136,22 @@ class ManagerApp extends React.Component {
                   <span className="nav-link-text ms-1">Sign In</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-white "
-                  href="../pages/sign-up.html"
-                >
-                  <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i className="material-icons opacity-10">assignment</i>
-                  </div>
-                  <span className="nav-link-text ms-1">Sign Up</span>
-                </a>
-              </li>
             </ul>
           </div>
           <div className="sidenav-footer position-absolute w-100 bottom-0 ">
             <div className="mx-3">
-              <a
+              <button
                 className="btn bg-gradient-primary mt-4 w-100"
-                href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree"
+                onClick={() => {
+                  sessionStorage.setItem("role", '');
+                  sessionStorage.setItem("token", '');
+                  sessionStorage.setItem("user", '');
+                  window.location.href = '/login'
+                }}
                 type="button"
               >
                 Logout
-              </a>
+              </button>
             </div>
           </div>
         </aside>
