@@ -4,19 +4,19 @@ import {useState} from "react";
 import axios from "axios";
 import toast, {Toaster} from 'react-hot-toast';
 
-const LoanApproval = (props) => {
+const BranchWiseLateLoans = (props) => {
     const [state, setStateNew] = useState({isFirst: true, map: new Map(), keys: []})
     useEffect(() => {
         if (!state.isFirst) {
             return
         }
-        axios.get('http://localhost:4000/getLoanToBeApproved', {
+        axios.get('http://localhost:4000/getLoanPaymentDue', {
             headers: {
                 'authorization': sessionStorage.getItem('token')
             }
         }).then((resp) => {
             toast.success('Loading Finished!')
-            const data = resp.data.data
+            const data = resp.data
             const branchTransactionMap = new Map()
 
             for (let i = 0; i < data.length; i++) {
@@ -67,4 +67,4 @@ const LoanApproval = (props) => {
     );
 }
 
-export default LoanApproval;
+export default BranchWiseLateLoans;
