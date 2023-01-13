@@ -29,7 +29,7 @@ const DataTable = (props) => {
                newData.push({
                    key: i,
                    installmentNumber: i + 1,
-                   paymentDate: 'Settled Date: ' + 'data.payment_date',
+                   paymentDate: 'Settled Date: ' + data.payment[i].payment_date.substring(0, 10),
                    nextInstallment: 'Payment Date: ' +formatDate(getLastPaymentDate(i+1, data.start_date)),
                    loanNumber: data.loan_number,
                    place: 'p'
@@ -39,7 +39,7 @@ const DataTable = (props) => {
                newData.push({
                    key: i,
                    installmentNumber: i + 1,
-                   paymentDate: '',
+                   paymentDate: 'N/A',
                    nextInstallment: 'Payment Date: ' +formatDate(getLastPaymentDate(i+1, data.start_date)),
                    loanNumber: data.loan_number,
                    place: 'a'
