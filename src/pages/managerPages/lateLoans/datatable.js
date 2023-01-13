@@ -5,77 +5,67 @@ import toast from "react-hot-toast";
 const DataTable = (props) => {
     const data = props.data
     const newData = []
-    data.map((item, index) => {
-        console.log(item.is_online)
-        newData.push({
-            key: index,
-            loanNumber: item.loan_number,
-            customerName: item.customer_name,
-            requestDate: item.request_date,
-            loanDuration: item.loan_duration,
-            personalLoan: item.is_personal === 1 ? 'Yes' : 'No',
-            isOnline: item.is_online === 1 ? 'Yes' : 'No',
-            amount: item.amount
-        })
-    })
-    const columns = [
-        {
-            title: 'Loan Number', dataIndex: 'loanNumber', key: 'loanNumber',
-        },
-        {
-            title: 'Customer Name', dataIndex: 'customerName', key: 'customerName',
-        },
-        {
-            title: 'Request Date', dataIndex: 'requestDate', key: 'requestDate',
-        },
-        {
-            title: 'Loan Duration', dataIndex: 'loanDuration', key: 'loanDuration'
-        },
-        {
-            title: 'Personal loan', dataIndex: 'personalLoan', key: 'personalLoan', render: (_, record) => (
-                <Space size="large">
-                    <Tag color={record.personalLoan === 'Yes' ? 'green': 'gold'} key={'2'}>{record.personalLoan === 'Yes' ? 'Yes': 'No'}</Tag></Space>
-            ),
-        },
-        {
-            title: 'Online Request', dataIndex: 'isOnline', key: 'isOnline', render: (_, record) => (
-                <Space size="large">
-                    <Tag color={record.personalLoan === 'Yes' ? 'geekblue': 'gold'} key={'2'}>{record.isOnline === 'Yes' ? 'Yes': 'No'}</Tag></Space>
-            ),
-        },
-        {
-            title: 'Amount', dataIndex: 'amount', key: 'amount'
-        },
-        {
-            title: 'Action',
-            fixed: 'right',
-            width: 100,
-            key: 'action',
-            render: (_, record) => (
-                <Space size="large">
-                    <Tag color={'volcano'} key={'2'}><a onClick={
-                        () => {
-                            axios.post('http://localhost:4000/approveLoan', {
-                                loan_number: record.loanNumber
-                            }, {
-                                headers: {
-                                    'Content-Type': 'application/json', 'authorization': sessionStorage.getItem('token')
-                                }
-                            }).then((resp) => {
-                                if (resp.success) {
-                                    window.location.reload()
-                                } else {
-                                    toast.error('approval failed')
-                                }
 
-                            }).catch(err => {
-                                toast.error(err.message)
-                            })
-                        }
-                    }>Approve</a></Tag>
-                </Space>
-            ),
-        },]
+    function formatDate(d) {
+        let month = "" + (d.getMonth() + 1);
+        let day = "" + d.getDate();
+        let year = d.getFullYear();
+
+        if (month.length < 2) month = "0" + month;
+        if (day.length < 2) day = "0" + day;
+
+        return [year, month, day].join("-");
+    }
+
+    function getLastPaymentDate(paymentCount, start_date) {
+        const startDateString = start_date.substring(0, 10);
+        const start = new Date(startDateString)
+
+       return new Date(start.setMonth(start.getMonth() + paymentCount));
+    }
+
+    data.map((item, index) => {
+        const lastPayDate = getLastPaymentDate(item.payment_count, item.start_date);
+        if (lastPayDate < new Date()) {
+            newData.push({
+                key: index,
+                loanNumber: item.loan_number,
+                customerName: item.customer_name,
+                startDate: item.start_date.substring(0, 10),
+                customerId: item.customer_id,
+                lastPaymentDate: formatDate(lastPayDate),
+                loanDuration: item.loan_duration
+
+            })
+        }
+
+    })
+    const columns = [{
+        title: 'Customer ID', dataIndex: 'customerId', key: 'customerId'
+    }, {
+        title: 'Loan Number', dataIndex: 'loanNumber', key: 'loanNumber',
+    }, {
+        title: 'Customer Name', dataIndex: 'customerName', key: 'customerName',
+    }, {
+        title: 'Start Date', dataIndex: 'startDate', key: 'startDate', render: (_, record) => (<Space size="large">
+            <Tag color={'geekblue'}
+                 key={'2333'}>{record.startDate}</Tag></Space>),
+    }, {
+        title: 'loanDuration',
+        dataIndex: 'loanDuration',
+        key: 'loanDuration',
+        render: (_, record) => (<Space size="large">
+            <Tag color={'gold'}
+                 key={'2'}>{record.loanDuration + 'Months'}</Tag></Space>),
+    }, {
+        title: 'Last Payment Date',
+        dataIndex: 'lastPaymentDate',
+        key: 'lastPaymentDate',
+        fixed: 'right',
+        render: (_, record) => (<Space size="large">
+            <Tag color={'volcano'}
+                 key={'20'}>{record.lastPaymentDate}</Tag></Space>),
+    },]
 
     return <Table
         columns={columns}
