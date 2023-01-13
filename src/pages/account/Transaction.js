@@ -96,7 +96,7 @@ class Transaction extends React.Component {
                     toast.success('transaction successful');
                     window.location.href = '/account'
                 } else {
-                    toast.error('Something Happened! please try again.');
+                    toast.error(resp.error);
                     // window.location.reload()
                 }
             }, (error) => {
