@@ -40,6 +40,7 @@ const MFDForm = (props) => {
     const amount = document.getElementById("amount").value;
     const note = document.getElementById("note").value;
     const duration = document.getElementsByName("duration")[0].value;
+    const type = document.getElementsByName("type")[0].value;
     const fd = {
       account_number: account_number,
       customer_id: user,
@@ -48,6 +49,7 @@ const MFDForm = (props) => {
       balance: amount,
       account_number_from: account_number,
       account_number_to: savings_account,
+      is_personal: type,
     };
 
     console.log("clicked", fd);
@@ -63,16 +65,21 @@ const MFDForm = (props) => {
         console.log(response);
         if (response.data.success) {
           toast.success("Fixed deposit successfully created");
+
           window.location.href = "/mDashboard";
         } else {
           toast.error("Error");
         }
+      })
+      .catch((err) => {
+        toast.error(err.message);
       });
   }
 
   return (
     <div className="card-body">
-      <div className="font-weight-bold text-lg text-uppercase text-dark">
+      <Toaster position="top-right" reverseOrder={false} />
+      <div className="font-weight-bold text-lg text-uppercase text-dark mb-3">
         Application to create Fixed Deposit
       </div>
       <form role="form" className="text-start">
@@ -84,6 +91,10 @@ const MFDForm = (props) => {
             value={"Branch Code: " + branch_code}
             disabled
           />
+        </div>
+        <div className="input-group input-group-outline my-3">
+          <label className="form-label">Amount</label>
+          <input type="number" className="form-control" id="amount" />
         </div>
 
         <div className="row my-3 mr-2">
@@ -99,7 +110,7 @@ const MFDForm = (props) => {
           </button>
         </div>
 
-        <div className="text-xs font-weight-bold">
+        <div className="mt-5 text-xs text-dark font-weight-bold">
           Choose the savings account to be linked
         </div>
 
@@ -126,11 +137,10 @@ const MFDForm = (props) => {
             <option>No savings accounts to the user</option>
           </select>
         )}
-        <div className="input-group input-group-outline my-3">
-          <label className="form-label">Amount</label>
-          <input type="number" className="form-control" id="amount" />
+
+        <div className="mt-3 text-xs text-dark font-weight-bold">
+          Choose the duration
         </div>
-        <div className="text-xs font-weight-bold">Duration</div>
         <select
           name="duration"
           id="car"
@@ -139,6 +149,14 @@ const MFDForm = (props) => {
           <option value="f001">6 months</option>
           <option value="f002">1 year</option>
           <option value="f003">3 years</option>
+        </select>
+
+        <div className="mt-3 text-xs text-dark font-weight-bold">
+          Choose the account type
+        </div>
+        <select name="type" id="car" className="w-100 js-states form-control">
+          <option value="1">Individual</option>
+          <option value="0">Business</option>
         </select>
 
         <div className="input-group input-group-outline my-3">
