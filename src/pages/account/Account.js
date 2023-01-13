@@ -144,14 +144,14 @@ class Account extends React.Component {
                 </ul>
               </div>
             </div>
-            <div class="text-center mt-3">
-              <a
-                class="btn bg-gradient-success w-50"
-                href="../account/createAccountForm"
-              >
-                <div>Create your new account</div>
-              </a>
-            </div>
+            {/*<div class="text-center mt-3">*/}
+            {/*  <a*/}
+            {/*    class="btn bg-gradient-success w-50"*/}
+            {/*    href="../account/createAccountForm"*/}
+            {/*  >*/}
+            {/*    <div>Create your new account</div>*/}
+            {/*  </a>*/}
+            {/*</div>*/}
           </div>
           <div class="col-md-5 mt-4">
             <div class="card h-100 mb-4">
@@ -265,9 +265,9 @@ class Account extends React.Component {
                 </ul>
               </div>
               <div className="text-center mb-3 text-secondary font-weight-bolder">
-                <a href="dashboard">
-                  <u>View All Transactions</u>
-                </a>
+                {/*<a href="dashboard">*/}
+                {/*  <u>View All Transactions</u>*/}
+                {/*</a>*/}
               </div>
             </div>
           </div>
