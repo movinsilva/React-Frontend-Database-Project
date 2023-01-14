@@ -56,7 +56,8 @@ const LoanApplicationForm = (props) => {
       loan_number: loan_number,
       loan_duration: duration,
       branch_code: state.branch_code,
-      loan_type_id: loan_type,
+      loan_type_id: loan_type.slice(0, 4),
+      interest_rate: loan_type.slice(4),
       amount: amount,
       due_date: formatDate(
         new Date().setMonth(new Date().getMonth() + duration)
@@ -151,12 +152,12 @@ const LoanApplicationForm = (props) => {
           id="car"
           className="w-100 js-states form-control border px-3"
         >
-          <option value="0000">small business loan @ 12.5%</option>
-          <option value="0001">mortgage loan @ 12%</option>
-          <option value="0002">mortgage loan @ 15%</option>
-          <option value="0003">large business loan @ 18%</option>
-          <option value="0004">vehicle loan @22.45%</option>
-          <option value="0005">personal loan @21%</option>
+          <option value="000012.5">small business loan @ 12.5%</option>
+          <option value="000112">mortgage loan @ 12%</option>
+          <option value="000215">mortgage loan @ 15%</option>
+          <option value="000318">large business loan @ 18%</option>
+          <option value="000422.45">vehicle loan @22.45%</option>
+          <option value="000521">personal loan @21%</option>
         </select>
 
         <div className="input-group input-group-outline my-3">
