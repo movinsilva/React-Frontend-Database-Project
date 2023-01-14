@@ -97,6 +97,7 @@ const MLoanApplication = (props) => {
 
   return (
     <div className="card-body">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="font-weight-bold text-lg text-uppercase text-dark">
         Loan Application Form
       </div>
