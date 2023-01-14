@@ -107,7 +107,11 @@ const LoanApplicationForm = (props) => {
         </div>
 
         {state.fdAccounts.length > 0 ? (
-          <select name="fdAccounts" id="car" className="js-states form-control">
+          <select
+            name="fdAccounts"
+            id="car"
+            className="js-states form-control border px-3"
+          >
             {state.fdAccounts.map((item, index) => {
               return (
                 <option value={item.account_number}>
@@ -118,7 +122,11 @@ const LoanApplicationForm = (props) => {
             })}
           </select>
         ) : (
-          <select name="fdAccounts" id="car" className="js-states form-control">
+          <select
+            name="fdAccounts"
+            id="car"
+            className="js-states form-control border px-3"
+          >
             <option>No fd accounts to the user</option>
           </select>
         )}
@@ -126,7 +134,11 @@ const LoanApplicationForm = (props) => {
         <div className="mt-3 text-xs text-dark font-weight-bold">
           Choose the account type
         </div>
-        <select name="type" id="car" className="w-100 js-states form-control">
+        <select
+          name="type"
+          id="car"
+          className="w-100 js-states form-control border px-3"
+        >
           <option value="1">Individual</option>
           <option value="0">Business</option>
         </select>
@@ -137,7 +149,7 @@ const LoanApplicationForm = (props) => {
         <select
           name="loan_type"
           id="car"
-          className="w-100 js-states form-control"
+          className="w-100 js-states form-control border px-3"
         >
           <option value="0000">small business loan @ 12.5%</option>
           <option value="0001">mortgage loan @ 12%</option>
